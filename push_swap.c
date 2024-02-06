@@ -6,14 +6,14 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 12:26:52 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/01 22:10:55 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/06 22:39:14 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 
-// #include <stdio.h>
+#include <stdio.h>
 
 void check_leaks(void)
 {
@@ -278,6 +278,7 @@ void pa(t_list *a, t_list *b, int data)
 	del_front(b);
 }
 
+#include <stdio.h>
 void push_swap(t_list *A, t_list *B, int max)
 {
 	t_node	*tmp;
@@ -292,16 +293,18 @@ void push_swap(t_list *A, t_list *B, int max)
 		
 		tmp = tmp->next;
 	}
+	int sd_len = i;
 	while(1)
 	{
-		if ( i > max)
+		if (i > 20)
 			break;
 		tmp = A->front;
+		printf ("rea:%d size::%d || %d\n", j, n, A->size);
+		j = 0;
 		while(j < n)
-		{
-			if (tmp->data > tmp->next->data)
-				sa(A);
-			else if ((tmp->data % i) / (i / 2) == 1)
+		{			// if (tmp->data > tmp->next->data)
+			// 	sa(A);
+			if ((tmp->data % i) / (i / 2) == 1)
 				ra(A, tmp->data);
 			else
 				pb(A, B, tmp->data);
@@ -309,32 +312,36 @@ void push_swap(t_list *A, t_list *B, int max)
 			j++;
 		}
 		j = 0;
-		tmp = B->front;
+		// tmp = B->front;
 		// while(tmp != 0)
-		while(j < B->size)
+		while(1)
 		{
-			pa(A, B, tmp->data);
-			tmp = B->front;
-			// if(tmp != 0 && tmp->next != 0)
-			// 	if (tmp->data > tmp->next->data)
-			// 		sb(B);
+			if (B->size == 0)
+				break;
+			pa(A, B, B->front->data);
 		}
-		i += 1;
+		i += 2;
 	}
 }
 
 int main(int argc, char **argv)
 {
 
-	t_list	*list= malloc(sizeof(t_list));
-	t_list	*list_B= malloc(sizeof(t_list));
+	t_list	*list = malloc(sizeof(t_list));
+	t_list	*list_B = malloc(sizeof(t_list));
 	t_node	*tmp;
 
-    list->size = 0;	
+	list->size = 0;
 	int	i = 2;
 	long	max;
 	if(parsing(argc, argv, list, &max))
 		return (1);
+	tmp = list->front;
+	while (tmp)
+	{
+
+		tmp = tmp->next;
+	}
 	i = 2;
 	if (list->size == 1)
 		return 0;
@@ -352,8 +359,8 @@ int main(int argc, char **argv)
 			j++;
 		tmp = tmp->next;
 	}
-if (j == list->size)
-	return (0);
+	if (j == list->size)
+		return (0);
 	// printf("%d, %d", j, list->size);
 	push_swap(list, list_B, i);
 
@@ -365,6 +372,6 @@ if (j == list->size)
 	}
 	free(list);
 	free(list_B);
-	atexit(check_leaks);
+	// atexit(check_leaks);
 }
 // 1 11111 11111 11111 11111 11111 11111
