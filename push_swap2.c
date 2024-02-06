@@ -1,39 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   push_swap2.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 16:32:18 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/01/11 21:50:12 by jimchoi          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "push_swap.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-
-typedef struct	s_node {
-	int            data;
-	struct s_node    *prev; //앞
-	struct s_node    *next; // 두ㅣ
-	int					idx;
-}	t_node;
-
-typedef struct	s_list{
-	t_node        *front;
-	t_node        *rear;
-	int        lsize;
-}	t_list;
-
-typedef struct s_stack
-{
-	int		size;
-	t_list	a;
-	t_list	b;
-} t_stack;
-
-void add_front(t_list	*list, int data)
+void add_front(t_list *list, int data)
 {
 	t_node	*new_node;
 
@@ -41,7 +8,7 @@ void add_front(t_list	*list, int data)
 	new_node->data = data;
 	new_node->next = NULL;
 	new_node->prev = NULL;
-	if (list->lsize == 0) {
+	if (list->size == 0) {
 		list->front = new_node;
 		list->rear = new_node;
 	} else {
@@ -49,8 +16,8 @@ void add_front(t_list	*list, int data)
 		list->front->prev = new_node;
 		list->front = new_node;
 	}
-	list->lsize++;
-	new_node->idx = list->lsize;
+	list->size++;
+	new_node->idx = list->size;
 }
 
 void add_rear(t_list *list, int data)
@@ -61,7 +28,7 @@ void add_rear(t_list *list, int data)
 	new_node->data = data;
 	new_node->next = NULL;
 	new_node->prev = NULL;
-	if (list->lsize == 0) {
+	if (list->size == 0) {
 		list->front = new_node;
 		list->rear = new_node;
 	} else {
@@ -69,14 +36,14 @@ void add_rear(t_list *list, int data)
 		new_node->prev = list->rear;
 		list->rear = new_node;
 	}
-	list->lsize++;
+	list->size++;
 }
 
 void del_front(t_list *list)
 {
 	t_node	*tmp;
 
-	if (list->lsize > 1)
+	if (list->size > 1)
 	{
 		tmp = list->front;
 		list->front = list->front->next;
@@ -85,14 +52,14 @@ void del_front(t_list *list)
 	}
 	else
 		free(list->front);
-	list->lsize--;
+	list->size--;
 }
 
 void del_rear(t_list *list)
 {
 	t_node    *tmp;
 
-	if (list->lsize > 1)
+	if (list->size > 1)
 	{
 		tmp = list->rear;
 		list->rear = list->rear->prev;
@@ -101,80 +68,98 @@ void del_rear(t_list *list)
 	}
 	else
 		free(list->rear);
-	list->lsize--;
+	list->size--;
 }
 
-void	swap(t_node *a, t_node *b) //12 swap
+
+void	sa(t_list *a)
 {
+	int	data;
 
-	int tmp;
+	data = a->front->data;
+	a->front->data = a->front->next->data;
+	a->front->next->data = data;
+	write(1, "sa\n", 3);
+}
+void	sb(t_list *b)
+{
+	int	data;
 
-	tmp = a->idx;
-	a->idx = b->idx;
-	b->idx = tmp;
+	data = b->front->data;
+	b->front->data = b->front->next->data;
+	b->front->next->data = data;
+	write(1, "sb\n", 3);
+}
+void	ss(t_list *a ,t_list *b)
+{
+	int	data;
+	int	data2;
+
+	data = a->front->data;
+	a->front->data = a->front->next->data;
+	a->front->next->data = data;
+	data2 = b->front->data;
+	b->front->data = b->front->next->data;
+	b->front->next->data = data2;
+	write(1, "ss\n", 3);
 }
 
-// void	rotate(t_list *);`
-void push(t_list *from, t_list *to)
+void ra(t_list *a, int data)
 {
-	add_front(to, from->front->data);
-	del_front(from);
+	write(1, "ra\n", 3);
+	add_rear(a, data);
+	del_front(a);
+
 }
 
-void selection_sort(t_list *list)
+void rb(t_list *b, int data)
 {
-	int        i;
-	int        j;
-    t_node    *tmp;
-	int		tnum;
+	write(1, "rb\n", 3);
+	add_rear(b, data);
+	del_front(b);
 
-    j = 0;
-    while (j < list->lsize - 1)
-    {
-		i = 0;
-        tmp = list->front;
-        while (i < list->lsize - 1)
-        {
-            if (tmp->data > tmp->next->data)
-                {
-					// printf("%d %d \n", tmp->data, tmp->next->data);
-					// tnum = tmp->data;
-					// tmp->data = tmp->next->data;
-					// tmp->next->data = tnum;
-					
-				}
-            tmp = tmp->next;
-            i++;
-        }
-		j++;
-    }
+}
+void rr(t_list *a, t_list *b, int data, int data2)
+{
+	write(1, "rr\n", 3);
+	add_rear(a, data);
+	del_front(a);
+	add_rear(b, data2);
+	del_front(b);
+
+}
+void	rra(t_list *a)
+{
+	write(1, "rra\n", 4);
+	add_front(a, a->rear->data);
+	del_rear(a);
+}
+void    rrb(t_list *b)
+{
+	write(1, "rrb\n", 4);
+	add_front(b, b->rear->data);
+	del_rear(b);
 }
 
-int main()
+void	rrr(t_list *a, t_list *b)
 {
-	int arr[10] = {5, 3, 6234234, 7, 2, 8234, 9, 0, 1, 41231};
+	write(1, "rrr\n", 4);
+	add_front(a, a->rear->data);
+	add_front(b, b->rear->data);
+	del_rear(a);
+	del_rear(b);
+}
 
-    t_list    *list= malloc(sizeof(t_list));
-	t_node    *tmp;
+void pb(t_list *a, t_list *b, int data)
+{
+	write(1, "pb\n", 3);
+	add_front(b, data);
+	del_front(a);
+}
 
-	for(int i = 0; i < 10; i++)
-	{
-		add_front(list, arr[i]);
-	}
-	tmp = list->front;
-	for(int j = 0; j < list->lsize; j++)
-	{
-		printf("list[%d] = %d\n", tmp->idx, tmp->data);
-		tmp = tmp->next;
-	}
-	selection_sort(list);
-
-	tmp = list->front;
-	for(int j = 0; j < list->lsize; j++)
-	{
-		printf("list[%d] = %d\n",tmp->data, tmp->idx);
-		tmp = tmp->next;
-	}
-
-
+void pa(t_list *a, t_list *b, int data)
+{
+	write(1, "pa\n", 3);
+	add_front(a,data);
+	del_front(b);
 }
