@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 12:26:52 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/06 22:39:14 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/08 21:27:29 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,52 +33,42 @@ int check_duplicate(t_list *list, int num)
 }
 
 
-int	check_num(char *str, t_list *list, long *max)
+int	check_num(char *str, t_list *list)
 {
 	long	num;
-	int		neg = 0;
+	char	neg;
 
 	while(*str)
 	{
-		while(*str == ' ')
-			str++;
 		num = 0;
-		if(*str == '-')
+		while(*str == ' ' || *str == '-')
 		{
-			neg = 1;
-            str++;
-		}
+			neg = *str;
+			str++;
+		}	
 		while ('0' <= *str && *str <= '9')
 		{
 			num = num * 10 + *str - '0';
 			str++;
 		}
-		if (num > *max)
-			*max = num;
-		if (neg == 1)
+		if (neg == '-')
 			num = -num;
-		if (num > 2147483647 || num < -2147483648)
+		if ((num > 2147483647 || num < -2147483648) && check_duplicate(list, num))
 		{
 			write(1, "Error\n", 6);
 			return (1);
 		}
-		if (check_duplicate(list, num))
-		{
-            write(1, "Error\n", 6);
-            return (1);
-        }
-		add_rear(list, num);
+		add_rear(list, num, 0);
 		neg = 0;
 	}
 		return (0);
 }
 
-int parsing(int argc, char **argv, t_list *list, long *max)
+int parsing(int argc, char **argv, t_list *list)
 {
 	int	idx;
 	char *str;
 	int j;
-	int num;
 
 	idx = 1;
 	while (idx < argc)
@@ -93,11 +83,11 @@ int parsing(int argc, char **argv, t_list *list, long *max)
 				return (1);
 			}
 		}	
-		if (check_num(str, list, max))
+		if (check_num(str, list))
             return (1);
 		idx++;
 	}
-	// printf("max in pasing %d\n", *max);
+
 	return (0);
 }
 
@@ -109,41 +99,73 @@ void push_swap(t_list *A, t_list *B, int max)
 	int i = 1;
 	int j = 0;
 	int n;
-	tmp = A->front;
-	while (tmp->next != 0)
-	{
-		
-		tmp = tmp->next;
-	}
-	// int sd_len = i;
 	while(max--)
 	{
-		// if (sd_len > 20)
-		// 	break;
 		tmp = A->front;
-		// printf ("rea:%d size::%d || %d\n", j, n, A->size);
-		j = 0;
+		j = -1;
 		n = A->size;
-		while(j < n)
+		while(++j < n)
 		{
-			// if (tmp->data > tmp->next->data)
-			// 	sa(A);
 			if ((tmp->data / i) % 2 == 1)
-				ra(A, tmp->data);
+				ra(A, *tmp);
 			else
-				pb(A, B, tmp->data);
+				pb(A, B, *tmp);
 			tmp = A->front;
-			j++;
 		}
-		j = 0;
+		j = -1;
 		n = B->size;
-		while(j < n)
-		{
-			pa(A, B, B->front->data);
-			j++;
-		}
+		while(++j < n)
+			pa(A, B, *(B->front));
 		i *= 2;
 	}
+}
+
+int	find_max(t_list *A)
+{
+	t_node    *tmp;
+    long        max;
+	long num;
+    max = 0;
+    tmp = A->front;
+    while(tmp)
+    {	
+		num = tmp->idx;
+        if (num > max)
+            max = num;
+        tmp = tmp->next;
+    }
+    return (max);
+}
+
+void indexing(t_list *list)
+{
+	int	size = list->size;
+	int i = 0;
+	int j = 0;
+	t_node *tmp;
+	t_node *max_node;
+
+	while(i < size)
+	{
+		tmp = list->front;
+		max_node = tmp;
+	int max = -2147483648;
+	j = 0;
+		while(j < size)
+		{
+			if(tmp->data > max && tmp->idx == 0)
+			{
+				max = tmp->data;
+                max_node = tmp;
+			}
+            tmp = tmp->next;
+			j++;
+		}
+			max_node->idx = size - i;
+		i++;
+	}
+	
+
 }
 
 int main(int argc, char **argv)
@@ -156,24 +178,16 @@ int main(int argc, char **argv)
 	list->size = 0;
 	int	i = 0;
 	long	max = 0;
-	if(parsing(argc, argv, list, &max))
-		return (1);
-
-	// tmp = list->front;
-	// while(tmp->next != 0)
-	// {
-	// 	printf("%d ",tmp->data);
-	// 	tmp = tmp->next;
-	// }
-
-
-	if (list->size == 1)
-		return 0;
+	
+	if(parsing(argc, argv, list) && list->size == 1)
+		return (0);
+	max = find_max(list);
 	while(max > 0)
 	{
 		max = max / 2;
 		i++;
 	}
+	indexing(list);
 	tmp = list->front;
 	int j = 1;
 	while(tmp->next != 0)
@@ -184,6 +198,11 @@ int main(int argc, char **argv)
 	}
 	if (j == list->size)
 		return (0);
+
+	// if (list->size < 6)
+    // {
+	// 	small_case_push_swap(list, list_B, i)
+	// }
 	push_swap(list, list_B, i);
 
 	i = 0;
