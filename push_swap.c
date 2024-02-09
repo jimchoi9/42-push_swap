@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 12:26:52 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/09 17:40:59 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/09 19:53:27 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	check_leaks(void)
 {
-	system("leaks a.out");
+	system("leaks push_swap");
 }
 
 int	check_duplicate(t_list *list, int num)
@@ -52,11 +52,8 @@ int	check_num(char *str, t_list *list)
 		if (neg == '-')
 			num = -num;
 		if ((num > 2147483647 || num < -2147483648)
-			&& check_duplicate(list, num))
-		{
-			write(1, "Error\n", 6);
+			|| check_duplicate(list, num))
 			return (1);
-		}
 		add_rear(list, num, 0);
 		neg = 0;
 	}
@@ -78,11 +75,22 @@ int	parsing(int argc, char **argv, t_list *list)
 		{
 			if (('0' > str[j] || str[j] > '9')
 				&& str[j] != ' ' && str[j] != '-')
-			{
-				write(1, "Error\n", 6);
 				return (1);
-			}
 		}	
+		idx++;
+	}
+	idx = 1;
+	while (idx < argc)
+	{
+		// printf("ㄷㅡㄹ어오나?\n");
+		str = argv[idx];
+		// j = -1;
+		// while (str[++j])
+		// {
+		// 	if (('0' > str[j] || str[j] > '9')
+		// 		&& str[j] != ' ' && str[j] != '-')
+		// 		return (1);
+		// }	
 		if (check_num(str, list))
 			return (1);
 		idx++;
@@ -221,8 +229,12 @@ int main(int argc, char **argv)
 	int	i = 0;
 	long	max = 0;
 	
-	if(parsing(argc, argv, list) && list->size == 1)
+	if(parsing(argc, argv, list) || list->size == 1)
+	{
+		write(1, "Error\n", 6);
+		atexit(check_leaks);
 		return (0);
+	}
 	indexing(list);
 	max = find_max(list);
 	while(max > 0)
@@ -254,6 +266,6 @@ int main(int argc, char **argv)
 	}
 	free(list);
 	free(list_B);
-	// atexit(check_leaks);
+	atexit(check_leaks);
 }
 // 1 11111 11111 11111 11111 11111 11111
