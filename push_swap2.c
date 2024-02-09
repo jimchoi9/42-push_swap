@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap2.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/09 15:59:21 by jimchoi           #+#    #+#             */
+/*   Updated: 2024/02/09 16:56:10 by jimchoi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void add_front(t_list *list, int data, int idx)
+void	add_front(t_list *list, int data, int idx)
 {
 	t_node	*new_node;
 
@@ -9,10 +21,13 @@ void add_front(t_list *list, int data, int idx)
 	new_node->idx = idx;
 	new_node->next = NULL;
 	new_node->prev = NULL;
-	if (list->size == 0) {
+	if (list->size == 0)
+	{
 		list->front = new_node;
 		list->rear = new_node;
-	} else {
+	}
+	else
+	{
 		new_node->next = list->front;
 		list->front->prev = new_node;
 		list->front = new_node;
@@ -21,7 +36,7 @@ void add_front(t_list *list, int data, int idx)
 	new_node->idx = list->size;
 }
 
-void add_rear(t_list *list, int data, int idx)
+void	add_rear(t_list *list, int data, int idx)
 {
 	t_node	*new_node;
 
@@ -30,10 +45,13 @@ void add_rear(t_list *list, int data, int idx)
 	new_node->idx = idx;
 	new_node->next = NULL;
 	new_node->prev = NULL;
-	if (list->size == 0) {
+	if (list->size == 0)
+	{
 		list->front = new_node;
 		list->rear = new_node;
-	} else {
+	}
+	else
+	{
 		list->rear->next = new_node;
 		new_node->prev = list->rear;
 		list->rear = new_node;
@@ -41,7 +59,7 @@ void add_rear(t_list *list, int data, int idx)
 	list->size++;
 }
 
-void del_front(t_list *list)
+void	del_front(t_list *list)
 {
 	t_node	*tmp;
 
@@ -57,9 +75,9 @@ void del_front(t_list *list)
 	list->size--;
 }
 
-void del_rear(t_list *list)
+void	del_rear(t_list *list)
 {
-	t_node    *tmp;
+	t_node	*tmp;
 
 	if (list->size > 1)
 	{

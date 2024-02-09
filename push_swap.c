@@ -6,42 +6,40 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 12:26:52 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/08 21:27:29 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/09 17:40:59 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void check_leaks(void)
+void	check_leaks(void)
 {
 	system("leaks a.out");
 }
 
-
-int check_duplicate(t_list *list, int num)
+int	check_duplicate(t_list *list, int num)
 {
-	t_node    *tmp;
+	t_node	*tmp;
 
-    tmp = list->front;
-    while (tmp)
-    {
-        if (tmp->data == num)
-            return (1);
-        tmp = tmp->next;
-    }
-    return (0);
+	tmp = list->front;
+	while (tmp)
+	{
+		if (tmp->data == num)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
 }
-
 
 int	check_num(char *str, t_list *list)
 {
 	long	num;
 	char	neg;
 
-	while(*str)
+	while (*str)
 	{
 		num = 0;
-		while(*str == ' ' || *str == '-')
+		while (*str == ' ' || *str == '-')
 		{
 			neg = *str;
 			str++;
@@ -53,7 +51,8 @@ int	check_num(char *str, t_list *list)
 		}
 		if (neg == '-')
 			num = -num;
-		if ((num > 2147483647 || num < -2147483648) && check_duplicate(list, num))
+		if ((num > 2147483647 || num < -2147483648)
+			&& check_duplicate(list, num))
 		{
 			write(1, "Error\n", 6);
 			return (1);
@@ -61,14 +60,14 @@ int	check_num(char *str, t_list *list)
 		add_rear(list, num, 0);
 		neg = 0;
 	}
-		return (0);
+	return (0);
 }
 
-int parsing(int argc, char **argv, t_list *list)
+int	parsing(int argc, char **argv, t_list *list)
 {
-	int	idx;
-	char *str;
-	int j;
+	int		idx;
+	int		j;
+	char	*str;
 
 	idx = 1;
 	while (idx < argc)
@@ -77,34 +76,36 @@ int parsing(int argc, char **argv, t_list *list)
 		j = -1;
 		while (str[++j])
 		{
-			if (('0' > str[j] || str[j] > '9') && str[j] != ' ' && str[j] != '-') //ㅅㅜㅅ자가 아닌데 공백도 아니면 끝
+			if (('0' > str[j] || str[j] > '9')
+				&& str[j] != ' ' && str[j] != '-')
 			{
 				write(1, "Error\n", 6);
 				return (1);
 			}
 		}	
 		if (check_num(str, list))
-            return (1);
+			return (1);
 		idx++;
 	}
-
 	return (0);
 }
 
 
-void push_swap(t_list *A, t_list *B, int max)
+void	push_swap(t_list *A, t_list *B, int max)
 {
 	t_node	*tmp;
+	int		i;
+	int		j;
+	int		n;
 
-	int i = 1;
-	int j = 0;
-	int n;
-	while(max--)
+	i = 1;
+	j = 0;
+	while (max--)
 	{
 		tmp = A->front;
 		j = -1;
 		n = A->size;
-		while(++j < n)
+		while (++j < n)
 		{
 			if ((tmp->data / i) % 2 == 1)
 				ra(A, *tmp);
@@ -114,7 +115,7 @@ void push_swap(t_list *A, t_list *B, int max)
 		}
 		j = -1;
 		n = B->size;
-		while(++j < n)
+		while (++j < n)
 			pa(A, B, *(B->front));
 		i *= 2;
 	}
@@ -122,50 +123,91 @@ void push_swap(t_list *A, t_list *B, int max)
 
 int	find_max(t_list *A)
 {
-	t_node    *tmp;
-    long        max;
-	long num;
-    max = 0;
-    tmp = A->front;
-    while(tmp)
-    {	
+	t_node	*tmp;
+	long	max;
+	long	num;
+
+	max = 0;
+	tmp = A->front;
+	while (tmp)
+	{	
 		num = tmp->idx;
-        if (num > max)
-            max = num;
-        tmp = tmp->next;
-    }
-    return (max);
+		if (num > max)
+			max = num;
+		tmp = tmp->next;
+	}
+	return (max);
 }
 
-void indexing(t_list *list)
+void	indexing(t_list *list)
 {
-	int	size = list->size;
-	int i = 0;
-	int j = 0;
-	t_node *tmp;
-	t_node *max_node;
+	int		size;
+	int		j;
+	int		max;
+	t_node	*tmp;
+	t_node	*max_node;
 
-	while(i < size)
+	size = list->size;
+	j = 0;
+	while (size--)
 	{
 		tmp = list->front;
 		max_node = tmp;
-	int max = -2147483648;
-	j = 0;
-		while(j < size)
+		max = -2147483648;
+		j = 0;
+		while (tmp)
 		{
-			if(tmp->data > max && tmp->idx == 0)
+			if (tmp->data > max && tmp->idx == 0)
 			{
 				max = tmp->data;
-                max_node = tmp;
+				max_node = tmp;
 			}
-            tmp = tmp->next;
-			j++;
+			tmp = tmp->next;
 		}
-			max_node->idx = size - i;
-		i++;
+			max_node->idx = size;
 	}
-	
+			tmp = list->front;
+}
+void	small_case_push_swap(t_list *a, t_list *b)
+{
+	int	n;
 
+	n = a->size;
+	if (n <= 3)
+	{
+		if ((a->front->data < a->front->next->data
+				&& a->front->data < a->rear->data)
+			|| (a->front->data > a->rear->data
+				&& a->front->data > a->front->next->data))
+			ra(a, *a->front);
+		if (a->front->data > a->front->next->data)
+			sa(a);
+		if (a->rear->data < a->front->data)
+			rra(a);
+	}
+	else
+	{
+		while (n--)
+		{
+			if (a->front->idx < 2)
+				pb(a, b, *(a->front));
+			else
+				ra(a, *(a->front));
+		}
+		if ((a->front->data < a->front->next->data
+				&& a->front->data < a->rear->data)
+			|| (a->front->data > a->rear->data
+				&& a->front->data > a->front->next->data))
+			ra(a, *a->front);
+		if (a->front->data > a->front->next->data)
+			sa(a);
+		if (a->rear->data < a->front->data)
+			rra(a);
+		if (b->front->data < b->front->next->data)
+			sb(b);
+		pa(a, b, *(b->front));
+		pa(a, b, *(b->front));
+	}
 }
 
 int main(int argc, char **argv)
@@ -181,13 +223,14 @@ int main(int argc, char **argv)
 	
 	if(parsing(argc, argv, list) && list->size == 1)
 		return (0);
+	indexing(list);
 	max = find_max(list);
 	while(max > 0)
 	{
 		max = max / 2;
 		i++;
 	}
-	indexing(list);
+
 	tmp = list->front;
 	int j = 1;
 	while(tmp->next != 0)
@@ -198,12 +241,10 @@ int main(int argc, char **argv)
 	}
 	if (j == list->size)
 		return (0);
-
-	// if (list->size < 6)
-    // {
-	// 	small_case_push_swap(list, list_B, i)
-	// }
-	push_swap(list, list_B, i);
+	if (list->size < 6)
+		small_case_push_swap(list, list_B);
+	else
+		push_swap(list, list_B, i);
 
 	i = 0;
 	while (list->size > 0)
