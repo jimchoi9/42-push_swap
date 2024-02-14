@@ -66,6 +66,8 @@ int	parsing(int argc, char **argv, t_list *list)
 	int		j;
 	char	*str;
 
+	if (*argv||!argv[1][0])
+		exit (1);
 	idx = 1;
 	while (idx < argc)
 	{
@@ -82,15 +84,7 @@ int	parsing(int argc, char **argv, t_list *list)
 	idx = 1;
 	while (idx < argc)
 	{
-		// printf("ㄷㅡㄹ어오나?\n");
 		str = argv[idx];
-		// j = -1;
-		// while (str[++j])
-		// {
-		// 	if (('0' > str[j] || str[j] > '9')
-		// 		&& str[j] != ' ' && str[j] != '-')
-		// 		return (1);
-		// }	
 		if (check_num(str, list))
 			return (1);
 		idx++;
@@ -229,11 +223,11 @@ int main(int argc, char **argv)
 	int	i = 0;
 	long	max = 0;
 	
-	if(parsing(argc, argv, list) || list->size == 1)
+	if(parsing(argc, argv, list) || list->size > 1)
 	{
-		write(1, "Error\n", 6);
+		write(2, "Error\n", 6);
 		atexit(check_leaks);
-		return (0);
+		exit (1);
 	}
 	indexing(list);
 	max = find_max(list);
@@ -269,3 +263,9 @@ int main(int argc, char **argv)
 	atexit(check_leaks);
 }
 // 1 11111 11111 11111 11111 11111 11111
+
+// 아무것도 없었을때
+// ""
+// 하나 있을때 
+// 정렬되어 있었을때 ra,rb같은 명령어 나오면 안됨
+// 1 - 가 정렬되버림
