@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 12:26:52 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/09 19:53:27 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/15 18:08:03 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,88 +17,6 @@ void	check_leaks(void)
 	system("leaks push_swap");
 }
 
-int	check_duplicate(t_list *list, int num)
-{
-	t_node	*tmp;
-
-	tmp = list->front;
-	while (tmp)
-	{
-		if (tmp->data == num)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-int	check_num(char *str, t_list *list)
-{
-	long	num;
-	char	neg;
-
-	while (*str)
-	{
-		num = 0;
-		while (*str == ' ' || *str == '-')
-		{
-			neg = *str;
-			str++;
-		}	
-		while ('0' <= *str && *str <= '9')
-		{
-			num = num * 10 + *str - '0';
-			str++;
-		}
-		if (neg == '-')
-			num = -num;
-		if ((num > 2147483647 || num < -2147483648)
-			|| check_duplicate(list, num))
-			return (1);
-		add_rear(list, num, 0);
-		neg = 0;
-	}
-	return (0);
-}
-
-int	parsing(int argc, char **argv, t_list *list)
-{
-	int		idx;
-	int		j;
-	char	*str;
-
-	idx = 1;
-	while (idx < argc)
-	{
-		str = argv[idx];
-		j = -1;
-		while (str[++j])
-		{
-			if (('0' > str[j] || str[j] > '9')
-				&& str[j] != ' ' && str[j] != '-')
-				return (1);
-		}	
-		idx++;
-	}
-	idx = 1;
-	while (idx < argc)
-	{
-		// printf("ㄷㅡㄹ어오나?\n");
-		str = argv[idx];
-		// j = -1;
-		// while (str[++j])
-		// {
-		// 	if (('0' > str[j] || str[j] > '9')
-		// 		&& str[j] != ' ' && str[j] != '-')
-		// 		return (1);
-		// }	
-		if (check_num(str, list))
-			return (1);
-		idx++;
-	}
-	return (0);
-}
-
-
 void	push_swap(t_list *A, t_list *B, int max)
 {
 	t_node	*tmp;
@@ -107,7 +25,6 @@ void	push_swap(t_list *A, t_list *B, int max)
 	int		n;
 
 	i = 1;
-	j = 0;
 	while (max--)
 	{
 		tmp = A->front;
@@ -129,53 +46,6 @@ void	push_swap(t_list *A, t_list *B, int max)
 	}
 }
 
-int	find_max(t_list *A)
-{
-	t_node	*tmp;
-	long	max;
-	long	num;
-
-	max = 0;
-	tmp = A->front;
-	while (tmp)
-	{	
-		num = tmp->idx;
-		if (num > max)
-			max = num;
-		tmp = tmp->next;
-	}
-	return (max);
-}
-
-void	indexing(t_list *list)
-{
-	int		size;
-	int		j;
-	int		max;
-	t_node	*tmp;
-	t_node	*max_node;
-
-	size = list->size;
-	j = 0;
-	while (size--)
-	{
-		tmp = list->front;
-		max_node = tmp;
-		max = -2147483648;
-		j = 0;
-		while (tmp)
-		{
-			if (tmp->data > max && tmp->idx == 0)
-			{
-				max = tmp->data;
-				max_node = tmp;
-			}
-			tmp = tmp->next;
-		}
-			max_node->idx = size;
-	}
-			tmp = list->front;
-}
 void	small_case_push_swap(t_list *a, t_list *b)
 {
 	int	n;
@@ -218,32 +88,34 @@ void	small_case_push_swap(t_list *a, t_list *b)
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-
-	t_list	*list = malloc(sizeof(t_list));
-	t_list	*list_B = malloc(sizeof(t_list));
+	t_list	*stack_a;
+	t_list	*stack_b;
 	t_node	*tmp;
+	int		i;
+	long	max;
 
-	list->size = 0;
-	int	i = 0;
-	long	max = 0;
-	
-	if(parsing(argc, argv, list) || list->size == 1)
+	stack_a = malloc(sizeof(t_list));
+	stack_b = malloc(sizeof(t_list));
+	stack_a->size = 0;
+	i = 0;
+	if (!(*argv[1]) || !argv[1][0])
+		exit (1);
+	if (parsing(argc, argv, stack_a) || stack_a->size < 1)
 	{
-		write(1, "Error\n", 6);
+		write(2, "Error\n", 6);
 		atexit(check_leaks);
-		return (0);
+		exit (1);
 	}
-	indexing(list);
-	max = find_max(list);
-	while(max > 0)
+	indexing(stack_a);
+	max = find_max(stack_a);
+	while (max > 0)
 	{
 		max = max / 2;
 		i++;
 	}
-
-	tmp = list->front;
+	tmp = stack_a->front;
 	int j = 1;
 	while(tmp->next != 0)
 	{
@@ -251,21 +123,27 @@ int main(int argc, char **argv)
 			j++;
 		tmp = tmp->next;
 	}
-	if (j == list->size)
+	if (j == stack_a->size)
 		return (0);
-	if (list->size < 6)
-		small_case_push_swap(list, list_B);
+	if (stack_a->size < 6)
+		small_case_push_swap(stack_a, stack_b);
 	else
-		push_swap(list, list_B, i);
+		push_swap(stack_a, stack_b, i);
 
 	i = 0;
-	while (list->size > 0)
+	while (stack_a->size > 0)
 	{
-		del_front(list);
+		del_front(stack_a);
 		i++;
 	}
-	free(list);
-	free(list_B);
+	free(stack_a);
+	free(stack_b);
 	atexit(check_leaks);
 }
 // 1 11111 11111 11111 11111 11111 11111
+
+// 아무것도 없었을때
+// ""
+// 하나 있을때 
+// 정렬되어 있었을때 ra,rb같은 명령어 나오면 안됨
+// 1 - 가 정렬되버림
