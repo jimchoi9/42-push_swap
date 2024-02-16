@@ -6,16 +6,18 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:26:55 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/16 13:00:23 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:18:13 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	check_duplicate(t_list *list, int num)
+int	check_duplicate(t_list *list, int num, char *str)
 {
 	t_node	*tmp;
 
+	// if (!ft_isdigit(*str))
+	// 	return (1);
 	tmp = list->front;
 	while (tmp)
 	{
@@ -28,29 +30,36 @@ int	check_duplicate(t_list *list, int num)
 
 int	check_num(char *str, t_list *list)
 {
+	// printf("s = %s\n", str);
 	long	num;
 	char	neg;
+	int		i;
 
+	i = 0;
 	while (*str)
 	{
-		num = 0;
-		while (*str == ' ')
-			str++;
 		if (*str == '-')
 		{
-			str++
+			neg = '-';
+			str++;
 		}
-		
-		while ('0' <= *str && *str <= '9')
+		if (!ft_isdigit(*str))
+			return (1);
+		num = 0;
+		while (ft_isdigit(*str))
 		{
 			num = num * 10 + *str - '0';
+		// printf(" = %ld \n", num);
 			str++;
 		}
 		if (neg == '-')
 			num = -num;
 		if ((num > 2147483647 || num < -2147483648)
-			|| check_duplicate(list, num))
+			|| check_duplicate(list, num, str))
+			{
+				// printf("num =%ld\n", num);
 			return (1);
+			}
 		add_rear(list, num, 0);
 		neg = 0;
 	}
@@ -63,25 +72,32 @@ int	parsing(int argc, char **argv, t_list *list)
 	int		j;
 	char	*str;
 
-	idx = 1;
-	while (idx < argc)
-	{
-		str = argv[idx];
-		j = -1;
-		while (str[++j])
-		{
-			if (('0' > str[j] || str[j] > '9')
-				&& str[j] != ' ' && str[j] != '-')
-				return (1);
-		}	
-		idx++;
-	}
 	idx = 0;
 	while (++idx < argc)
 	{
 		str = argv[idx];
-		if (check_num(str, list))
-			return (1);
+		j = -1;
+		while (str[++j])
+			if (!ft_isdigit(str[j])
+				&& str[j] != ' ' && str[j] != '-' && str[j] != '+')
+				return (1);
+	}
+	idx = 0;
+	while (++idx < argc)
+	{
+		j = -1;
+		str = argv[idx];
+		while (str[++j])
+		{
+			while (str[j] == ' ')
+				j++;
+			if (str[j] == '+')
+				j++;
+			if (check_num(str + j, list))
+				return (1);
+			if (str[j] == '-')
+				j++;
+		}
 	}
 	return (0);
 }
@@ -123,7 +139,7 @@ int	find_max(t_list *stack_a)
 	int		i;
 
 	i = 0;
-	max = 0;
+	max = -1;
 	tmp = stack_a->front;
 	while (tmp)
 	{	

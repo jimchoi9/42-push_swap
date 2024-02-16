@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:43:42 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/16 12:12:02 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/16 20:55:05 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <errno.h>
+# include "./libft/libft.h"
 
 typedef struct s_node
 {
@@ -30,7 +26,7 @@ typedef struct s_node
 	int				idx;
 }	t_node;
 
-typedef struct s_list{
+typedef struct s_stack{
 	t_node		*front;
 	t_node		*rear;
 	int			size;
@@ -41,7 +37,7 @@ void	add_front(t_list *list, int data, int idx);
 void	add_rear(t_list *list, int data, int idx);
 void	del_front(t_list *list);
 void	del_rear(t_list *list);
-int		check_duplicate(t_list *list, int num);
+int		check_duplicate(t_list *list, int num, char *str);
 int		check_num(char *str, t_list *list);
 int		parsing(int argc, char **argv, t_list *list);
 void	indexing(t_list *list);
@@ -59,4 +55,7 @@ void	pb(t_list *a, t_list *b, t_node tmp);
 void	pa(t_list *a, t_list *b, t_node tmp);
 void	push_swap(t_list *A, t_list *B, int max);
 
+
+
+void	printlist(t_list *stack_a);
 #endif
