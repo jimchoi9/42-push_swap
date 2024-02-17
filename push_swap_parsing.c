@@ -12,12 +12,10 @@
 
 #include "push_swap.h"
 
-int	check_duplicate(t_list *list, int num, char *str)
+int	check_duplicate(t_list *list, int num)
 {
 	t_node	*tmp;
 
-	// if (!ft_isdigit(*str))
-	// 	return (1);
 	tmp = list->front;
 	while (tmp)
 	{
@@ -30,38 +28,39 @@ int	check_duplicate(t_list *list, int num, char *str)
 
 int	check_num(char *str, t_list *list)
 {
-	// printf("s = %s\n", str);
 	long	num;
-	char	neg;
+	int		neg;
 	int		i;
 
 	i = 0;
 	while (*str)
 	{
-		if (*str == '-')
+		while (*str == ' ')
+				str++;
+		neg = 1;
+		if (*str == '-' || *str == '+')
 		{
-			neg = '-';
+			if (*str == '-')
+				neg = -1;
 			str++;
+			if (!ft_isdigit(*str))
+				return (1);
 		}
-		if (!ft_isdigit(*str))
-			return (1);
 		num = 0;
 		while (ft_isdigit(*str))
 		{
 			num = num * 10 + *str - '0';
-		// printf(" = %ld \n", num);
 			str++;
 		}
-		if (neg == '-')
-			num = -num;
-		if ((num > 2147483647 || num < -2147483648)
-			|| check_duplicate(list, num, str))
+		if ((num > 2147483648 || (num == 2147483648 && neg != -1))
+			|| check_duplicate(list, num) )
 			{
-				// printf("num =%ld\n", num);
+				printf("오ㅐ\n");
 			return (1);
 			}
-		add_rear(list, num, 0);
-		neg = 0;
+		add_rear(list, num * neg, 0);
+			while (*str == ' ')
+				str++;
 	}
 	return (0);
 }
@@ -87,17 +86,9 @@ int	parsing(int argc, char **argv, t_list *list)
 	{
 		j = -1;
 		str = argv[idx];
-		while (str[++j])
-		{
-			while (str[j] == ' ')
-				j++;
-			if (str[j] == '+')
-				j++;
-			if (check_num(str + j, list))
-				return (1);
-			if (str[j] == '-')
-				j++;
-		}
+		if (check_num(str, list))
+			return (1);
+		
 	}
 	return (0);
 }
@@ -106,7 +97,7 @@ void	indexing(t_list *list)
 {
 	int		size;
 	int		j;
-	int		max;
+	long	max;
 	t_node	*tmp;
 	t_node	*max_node;
 
@@ -115,7 +106,7 @@ void	indexing(t_list *list)
 	{
 		tmp = list->front;
 		max_node = tmp;
-		max = -2147483648;
+		max = -2147483649;
 		j = 0;
 		while (tmp)
 		{

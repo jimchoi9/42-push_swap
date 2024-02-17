@@ -37,7 +37,7 @@ void	add_front(t_list *list, int data, int idx);
 void	add_rear(t_list *list, int data, int idx);
 void	del_front(t_list *list);
 void	del_rear(t_list *list);
-int		check_duplicate(t_list *list, int num, char *str);
+int		check_duplicate(t_list *list, int num);
 int		check_num(char *str, t_list *list);
 int		parsing(int argc, char **argv, t_list *list);
 void	indexing(t_list *list);

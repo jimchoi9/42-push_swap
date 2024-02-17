@@ -119,7 +119,7 @@ int	main(int argc, char **argv)
 	stack_b->size = 0;
 	if (!(argv[1]) || !argv[1][0])
 		exit (1);
-	if (parsing(argc, argv, stack_a) || stack_a->size < 1)
+	if (parsing(argc, argv, stack_a))
 	{
 		write(2, "Error\n", 6);
 		printlist(stack_a);
@@ -129,14 +129,13 @@ int	main(int argc, char **argv)
 
 	indexing(stack_a);
 	max = find_max(stack_a);
-printlist(stack_a);
-	// printf("atoi = %lld\n",ft_atoi("21474836437"));
-	// if (check_sorted(stack_a))
-	// 	exit (0);
-	// if (stack_a->size < 6)
-	// 	small_case_push_swap(stack_a, stack_b);
-	// else
-	// 	push_swap(stack_a, stack_b, max);
+	if (check_sorted(stack_a))
+		exit (0);
+		// printlist(stack_a);
+	if (stack_a->size < 6)
+		small_case_push_swap(stack_a, stack_b);
+	else
+		push_swap(stack_a, stack_b, max);
 	while (stack_a->size > 0)
 		del_front(stack_a);
 	free(stack_a);
@@ -145,3 +144,16 @@ printlist(stack_a);
 }
 // 1 2 - 3 
 // + ㅈㅓㄱ요ㅇ
+/*
+ra
+ra
+pb
+ra
+pb
+ra
+rra
+sb
+pa
+pa
+
+*/
