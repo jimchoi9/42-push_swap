@@ -13,6 +13,10 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
+# define F front
+# define R rear
+# define N next
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -54,8 +58,8 @@ void	rrr(t_list *a, t_list *b);
 void	pb(t_list *a, t_list *b, t_node tmp);
 void	pa(t_list *a, t_list *b, t_node tmp);
 void	push_swap(t_list *A, t_list *B, int max);
-
-
-
+int		handle_error(void);
+int		is_op(char *str, int *neg);
 void	printlist(t_list *stack_a);
+
 #endif

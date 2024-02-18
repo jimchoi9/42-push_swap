@@ -12,55 +12,30 @@
 
 #include "push_swap.h"
 
-int	check_duplicate(t_list *list, int num)
-{
-	t_node	*tmp;
-
-	tmp = list->front;
-	while (tmp)
-	{
-		if (tmp->data == num)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
 int	check_num(char *str, t_list *list)
 {
 	long	num;
 	int		neg;
-	int		i;
 
-	i = 0;
 	while (*str)
 	{
 		while (*str == ' ')
-				str++;
-		neg = 1;
-		if (*str == '-' || *str == '+')
-		{
-			if (*str == '-')
-				neg = -1;
 			str++;
-			if (!ft_isdigit(*str))
-				return (1);
-		}
+		neg = 1;
+		if (is_op(str, &neg))
+			str++;
 		num = 0;
 		while (ft_isdigit(*str))
 		{
 			num = num * 10 + *str - '0';
 			str++;
 		}
-		if ((num > 2147483648 || (num == 2147483648 && neg != -1))
-			|| check_duplicate(list, num) )
-			{
-				printf("오ㅐ\n");
+		if ((num > 2147483648 || (num == 2147483648 && neg != -1)) 
+			|| check_duplicate(list, num))
 			return (1);
-			}
 		add_rear(list, num * neg, 0);
-			while (*str == ' ')
-				str++;
+		while (*str == ' ')
+			str++;
 	}
 	return (0);
 }
@@ -88,7 +63,6 @@ int	parsing(int argc, char **argv, t_list *list)
 		str = argv[idx];
 		if (check_num(str, list))
 			return (1);
-		
 	}
 	return (0);
 }
@@ -117,32 +91,6 @@ void	indexing(t_list *list)
 			}
 			tmp = tmp->next;
 		}
-			max_node->idx = size;
+		max_node->idx = size;
 	}
-			tmp = list->front;
-}
-
-int	find_max(t_list *stack_a)
-{
-	t_node	*tmp;
-	long	max;
-	long	num;
-	int		i;
-
-	i = 0;
-	max = -1;
-	tmp = stack_a->front;
-	while (tmp)
-	{	
-		num = tmp->idx;
-		if (num > max)
-			max = num;
-		tmp = tmp->next;
-	}
-	while (max > 0)
-	{
-		max = max / 2;
-		i++;
-	}
-	return (i);
 }

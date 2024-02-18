@@ -12,39 +12,54 @@
 
 #include "push_swap.h"
 
-void	rra(t_list *a)
+int	check_duplicate(t_list *list, int num)
 {
-	write(1, "rra\n", 4);
-	add_front(a, a->rear->data, a->rear->idx);
-	del_rear(a);
+	t_node	*tmp;
+
+	tmp = list->front;
+	while (tmp)
+	{
+		if (tmp->data == num)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
 }
 
-void	rrb(t_list *b)
+int	is_op(char *str, int *neg)
 {
-	write(1, "rrb\n", 4);
-	add_front(b, b->rear->data, b->rear->idx);
-	del_rear(b);
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			*neg = -1;
+		if (!ft_isdigit(*(str + 1)))
+			handle_error();
+		return (1);
+	}
+	return (0);
 }
 
-void	rrr(t_list *a, t_list *b)
+int	find_max(t_list *stack_a)
 {
-	write(1, "rrr\n", 4);
-	add_front(a, a->rear->data, a->rear->idx);
-	add_front(b, b->rear->data, b->rear->idx);
-	del_rear(a);
-	del_rear(b);
-}
+	t_node	*tmp;
+	long	max;
+	long	num;
+	int		i;
 
-void	pb(t_list *a, t_list *b, t_node tmp)
-{
-	write(1, "pb\n", 3);
-	add_front(b, tmp.data, tmp.idx);
-	del_front(a);
-}
-
-void	pa(t_list *a, t_list *b, t_node tmp)
-{
-	write(1, "pa\n", 3);
-	add_front(a, tmp.data, tmp.idx);
-	del_front(b);
+	i = 0;
+	max = -1;
+	tmp = stack_a->front;
+	while (tmp)
+	{
+		num = tmp->idx;
+		if (num > max)
+			max = num;
+		tmp = tmp->next;
+	}
+	while (max > 0)
+	{
+		max = max / 2;
+		i++;
+	}
+	return (i);
 }

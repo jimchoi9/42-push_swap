@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar
 ARFLAGS = rcs
 
-SRC = push_swap.c push_swap2.c push_swap3.c push_swap4.c push_swap_parsing.c
+SRC = push_swap.c push_swap2.c push_swap_instructions.c push_swap4.c push_swap_parsing.c
 SRCS = $(addprefix $(LIBFT_DIR),$(SRC))
 OBJS = $(SRC:.c=.o)
 
