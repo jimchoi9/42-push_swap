@@ -6,16 +6,12 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:43:42 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/16 20:55:05 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/19 16:37:03 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
-
-# define F front
-# define R rear
-# define N next
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -31,8 +27,8 @@ typedef struct s_node
 }	t_node;
 
 typedef struct s_stack{
-	t_node		*front;
-	t_node		*rear;
+	t_node		*f;
+	t_node		*r;
 	int			size;
 	char		name;
 }	t_list;
@@ -58,8 +54,9 @@ void	rrr(t_list *a, t_list *b);
 void	pb(t_list *a, t_list *b, t_node tmp);
 void	pa(t_list *a, t_list *b, t_node tmp);
 void	push_swap(t_list *A, t_list *B, int max);
+void	small_case_push_swap(t_list *a, t_list *b, int n);
 int		handle_error(void);
 int		is_op(char *str, int *neg);
-void	printlist(t_list *stack_a);
+// void	printlist(t_list *stack_a);
 
 #endif

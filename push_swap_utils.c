@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap4.c                                       :+:      :+:    :+:   */
+/*   push_swap_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:41:40 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/15 17:43:03 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/19 17:17:35 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_duplicate(t_list *list, int num)
 {
 	t_node	*tmp;
 
-	tmp = list->front;
+	tmp = list->f;
 	while (tmp)
 	{
 		if (tmp->data == num)
@@ -48,7 +48,7 @@ int	find_max(t_list *stack_a)
 
 	i = 0;
 	max = -1;
-	tmp = stack_a->front;
+	tmp = stack_a->f;
 	while (tmp)
 	{
 		num = tmp->idx;
@@ -62,4 +62,10 @@ int	find_max(t_list *stack_a)
 		i++;
 	}
 	return (i);
+}
+
+int	handle_error(void)
+{
+	write(2, "Error\n", 6);
+	exit (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:59:21 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/16 12:06:59 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/19 16:34:06 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,16 @@ void	add_front(t_list *list, int data, int idx)
 	new_node->prev = NULL;
 	if (list->size == 0)
 	{
-		list->front = new_node;
-		list->rear = new_node;
+		list->f = new_node;
+		list->r = new_node;
 	}
 	else
 	{
-		new_node->next = list->front;
-		list->front->prev = new_node;
-		list->front = new_node;
+		new_node->next = list->f;
+		list->f->prev = new_node;
+		list->f = new_node;
 	}
 	list->size++;
-	new_node->idx = list->size;
 }
 
 void	add_rear(t_list *list, int data, int idx)
@@ -47,14 +46,14 @@ void	add_rear(t_list *list, int data, int idx)
 	new_node->prev = NULL;
 	if (list->size == 0)
 	{
-		list->front = new_node;
-		list->rear = new_node;
+		list->f = new_node;
+		list->r = new_node;
 	}
 	else
 	{
-		list->rear->next = new_node;
-		new_node->prev = list->rear;
-		list->rear = new_node;
+		list->r->next = new_node;
+		new_node->prev = list->r;
+		list->r = new_node;
 	}
 	list->size++;
 }
@@ -65,13 +64,13 @@ void	del_front(t_list *list)
 
 	if (list->size > 1)
 	{
-		tmp = list->front;
-		list->front = list->front->next;
-		list->front->prev = NULL;
+		tmp = list->f;
+		list->f = list->f->next;
+		list->f->prev = NULL;
 		free(tmp);
 	}
 	else
-		free(list->front);
+		free(list->f);
 	list->size--;
 }
 
@@ -81,13 +80,13 @@ void	del_rear(t_list *list)
 
 	if (list->size > 1)
 	{
-		tmp = list->rear;
-		list->rear = list->rear->prev;
-		list->rear->next = NULL;
+		tmp = list->r;
+		list->r = list->r->prev;
+		list->r->next = NULL;
 		free(tmp);
 	}
 	else
-		free(list->rear);
+		free(list->r);
 	list->size--;
 }
 
@@ -96,11 +95,11 @@ void	sa(t_list *a)
 	int	data;
 	int	idx;
 
-	data = a->front->data;
-	a->front->data = a->front->next->data;
-	a->front->next->data = data;
-	idx = a->front->idx;
-	a->front->idx = a->front->next->idx;
-	a->front->next->idx = idx;
+	data = a->f->data;
+	a->f->data = a->f->next->data;
+	a->f->next->data = data;
+	idx = a->f->idx;
+	a->f->idx = a->f->next->idx;
+	a->f->next->idx = idx;
 	write(1, "sa\n", 3);
 }

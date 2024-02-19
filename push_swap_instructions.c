@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap3.c                                       :+:      :+:    :+:   */
+/*   push_swap_instructions.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:39:24 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/15 18:04:19 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/19 16:33:09 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	sb(t_list *b)
 	int	data;
 	int	idx;
 
-	data = b->front->data;
-	b->front->data = b->front->next->data;
-	b->front->next->data = data;
-	idx = b->front->idx;
-	b->front->idx = b->front->next->idx;
-	b->front->next->idx = idx;
+	data = b->f->data;
+	idx = b->f->idx;
+	b->f->data = b->f->next->data;
+	b->f->idx = b->f->next->idx;
+	b->f->next->data = data;
+	b->f->next->idx = idx;
 	write(1, "sb\n", 3);
 }
 
@@ -36,7 +36,7 @@ void	ra(t_list *a, t_node tmp)
 void	rra(t_list *a)
 {
 	write(1, "rra\n", 4);
-	add_front(a, a->rear->data, a->rear->idx);
+	add_front(a, a->r->data, a->r->idx);
 	del_rear(a);
 }
 

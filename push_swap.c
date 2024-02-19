@@ -6,17 +6,12 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 12:26:52 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/16 21:10:30 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/19 17:21:51 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-
-// void	check_leaks(void)
-// {
-// 	system("leaks push_swap");
-// }
 void	push_swap(t_list *a, t_list *b, int max)
 {
 	t_node	*tmp;
@@ -27,51 +22,50 @@ void	push_swap(t_list *a, t_list *b, int max)
 	i = 1;
 	while (max--)
 	{
-		tmp = a->front;
+		tmp = a->f;
 		j = -1;
 		n = a->size;
 		while (++j < n)
 		{
-			if ((tmp->data / i) % 2 == 1)
+			if ((tmp->idx / i) % 2 == 1)
 				ra(a, *tmp);
 			else
 				pb(a, b, *tmp);
-			tmp = a->front;
+			tmp = a->f;
 		}
 		j = -1;
 		n = b->size;
 		while (++j < n)
-			pa(a, b, *(b->front));
+			pa(a, b, *(b->f));
 		i *= 2;
 	}
 }
 
-void	small_case_push_swap(t_list *a, t_list *b)
+void	small_case_push_swap(t_list *a, t_list *b, int n)
 {
-	int	n;
-
-	n = a->size;
 	if (n > 3)
+	{
 		while (n--)
 		{
-			if (a->front->idx < 2)
-				pb(a, b, *(a->front));
+			if (a->f->idx < 2)
+				pb(a, b, *(a->f));
 			else
-				ra(a, *(a->front));
+				ra(a, *(a->f));
 		}
-	if ((a->F->data < a->F->N->data && a->F->data < a->R->data) 
-		|| (a->F->data > a->R->data && a->F->data > a->F->N->data))
-		ra(a, *a->F);
-	if (a->front->data > a->front->next->data)
+	}
+	if ((a->f->data < a->f->next->data && a->f->data < a->r->data)
+		|| (a->f->data > a->r->data && a->f->data > a->f->next->data))
+		ra(a, *a->f);
+	if (a->f->data > a->f->next->data)
 		sa(a);
-	if (a->rear->data < a->front->data)
+	if (a->r->data < a->f->data)
 		rra(a);
 	if (b->size != 0)
 	{
-		if (b->front->data < b->front->next->data)
+		if (b->f->data < b->f->next->data)
 			sb(b);
-		pa(a, b, *(b->front));
-		pa(a, b, *(b->front));
+		pa(a, b, *(b->f));
+		pa(a, b, *(b->f));
 	}
 }
 
@@ -81,7 +75,7 @@ int	check_sorted(t_list *stack_a)
 	int		j;
 
 	j = 1;
-	tmp = stack_a->front;
+	tmp = stack_a->f;
 	while (tmp->next != 0)
 	{
 		if (tmp->data < tmp->next->data)
@@ -93,23 +87,17 @@ int	check_sorted(t_list *stack_a)
 	return (0);
 }
 
-void	printlist(t_list *stack_a)
-{
-	t_node	*tmp;
+// void	printlist(t_list *stack_a)
+// {
+// 	t_node	*tmp;
 
-	tmp = stack_a->front;
-	while(tmp)
-	{
-		printf("%d [%d]\n", tmp->data, tmp->idx);
-        tmp = tmp->next;
-	}
-}
-int	handle_error(void)
-{
-	write(2, "Error\n", 6);
-	exit (1);
-}
-
+// 	tmp = stack_a->f;
+// 	while (tmp)
+// 	{
+// 		printf("A[%d] = %d\n", tmp->idx, tmp->data);
+// 		tmp = tmp->next;
+// 	}
+// }
 int	main(int argc, char **argv)
 {
 	t_list	*stack_a;
@@ -128,32 +116,17 @@ int	main(int argc, char **argv)
 	max = find_max(stack_a);
 	if (check_sorted(stack_a))
 		exit (0);
-	// printlist(stack_a);
 	if (stack_a->size < 6)
-		small_case_push_swap(stack_a, stack_b);
+		small_case_push_swap(stack_a, stack_b, stack_a->size);
 	else
-		push_swap(stack_a, stack_b, max);
+		push_swap(stack_a, stack_b, max + 1);
 	while (stack_a->size > 0)
 		del_front(stack_a);
 	free(stack_a);
 	free(stack_b);
 }
-	// atexit(check_leaks);
-// 1 2 - 3 
-// + ㅈㅓㄱ요ㅇ
-/*
-ARG="4 67 -3 8 -2 1"; ./push_swap $ARG | ./checker_Mac $ARG 정렬실패
-ARG="4 67 -3 8 -2 1"; ./push_swap $ARG
-ARG="3 5 0 4 1 2"; ./push_swap $ARG | ./checker_Mac $ARG 정렬됨
-ra
-ra
-pb
-ra
-pb
-ra
-rra
-sb
-pa
-pa
-
-*/
+// atexit(check_leaks);
+// void	check_leaks(void)
+// {
+// 	system("leaks push_swap");
+// }

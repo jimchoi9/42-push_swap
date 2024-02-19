@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:26:55 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/16 21:18:13 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/19 17:18:37 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	check_num(char *str, t_list *list)
 			num = num * 10 + *str - '0';
 			str++;
 		}
-		if ((num > 2147483648 || (num == 2147483648 && neg != -1)) 
-			|| check_duplicate(list, num))
+		if ((num > 2147483648 || (num == 2147483648 && neg != -1))
+			|| check_duplicate(list, num * neg))
 			return (1);
 		add_rear(list, num * neg, 0);
 		while (*str == ' ')
@@ -78,7 +78,7 @@ void	indexing(t_list *list)
 	size = list->size;
 	while (size--)
 	{
-		tmp = list->front;
+		tmp = list->f;
 		max_node = tmp;
 		max = -2147483649;
 		j = 0;
