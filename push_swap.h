@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:43:42 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/19 16:37:03 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/19 18:47:23 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,25 @@ typedef struct s_stack{
 	char		name;
 }	t_list;
 
+void	push_swap(t_list *A, t_list *B, int max);
+void	small_case_push_swap(t_list *a, t_list *b, int n);
+int		check_num(char *str, t_list *list);
+int		parsing(int argc, char **argv, t_list *list);
+void	indexing(t_list *list);
 void	add_front(t_list *list, int data, int idx);
 void	add_rear(t_list *list, int data, int idx);
 void	del_front(t_list *list);
 void	del_rear(t_list *list);
 int		check_duplicate(t_list *list, int num);
-int		check_num(char *str, t_list *list);
-int		parsing(int argc, char **argv, t_list *list);
-void	indexing(t_list *list);
+int		is_op(char *str, int *neg);
 int		find_max(t_list *stack_a);
+int		check_sorted(t_list *stack_a);
+void	handle_error(void);
 void	sa(t_list *a);
 void	sb(t_list *b);
-void	ss(t_list *a, t_list *b);
 void	ra(t_list *a, t_node tmp);
-void	rb(t_list *b, t_node tmp);
-void	rr(t_list *a, t_list *b, t_node tmp1, t_node tmp2);
 void	rra(t_list *a);
-void	rrb(t_list *b);
-void	rrr(t_list *a, t_list *b);
 void	pb(t_list *a, t_list *b, t_node tmp);
 void	pa(t_list *a, t_list *b, t_node tmp);
-void	push_swap(t_list *A, t_list *B, int max);
-void	small_case_push_swap(t_list *a, t_list *b, int n);
-int		handle_error(void);
-int		is_op(char *str, int *neg);
-// void	printlist(t_list *stack_a);
 
 #endif

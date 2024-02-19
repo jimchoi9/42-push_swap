@@ -11,7 +11,7 @@ OBJS = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT_DIR)$(LIBFT_NAME)
+$(NAME): $(LIBFT_DIR)$(LIBFT_NAME) $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(LIBFT_DIR)$(LIBFT_NAME):

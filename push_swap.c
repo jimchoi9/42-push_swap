@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 12:26:52 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/19 17:21:51 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/19 18:49:44 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,35 +69,6 @@ void	small_case_push_swap(t_list *a, t_list *b, int n)
 	}
 }
 
-int	check_sorted(t_list *stack_a)
-{
-	t_node	*tmp;
-	int		j;
-
-	j = 1;
-	tmp = stack_a->f;
-	while (tmp->next != 0)
-	{
-		if (tmp->data < tmp->next->data)
-			j++;
-		tmp = tmp->next;
-	}
-	if (j == stack_a->size)
-		return (1);
-	return (0);
-}
-
-// void	printlist(t_list *stack_a)
-// {
-// 	t_node	*tmp;
-
-// 	tmp = stack_a->f;
-// 	while (tmp)
-// 	{
-// 		printf("A[%d] = %d\n", tmp->idx, tmp->data);
-// 		tmp = tmp->next;
-// 	}
-// }
 int	main(int argc, char **argv)
 {
 	t_list	*stack_a;
@@ -125,8 +96,3 @@ int	main(int argc, char **argv)
 	free(stack_a);
 	free(stack_b);
 }
-// atexit(check_leaks);
-// void	check_leaks(void)
-// {
-// 	system("leaks push_swap");
-// }

@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:41:40 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/19 17:17:35 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/19 18:46:10 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,25 @@ int	find_max(t_list *stack_a)
 	return (i);
 }
 
-int	handle_error(void)
+int	check_sorted(t_list *stack_a)
+{
+	t_node	*tmp;
+	int		j;
+
+	j = 1;
+	tmp = stack_a->f;
+	while (tmp->next != 0)
+	{
+		if (tmp->data < tmp->next->data)
+			j++;
+		tmp = tmp->next;
+	}
+	if (j == stack_a->size)
+		return (1);
+	return (0);
+}
+
+void	handle_error(void)
 {
 	write(2, "Error\n", 6);
 	exit (1);
