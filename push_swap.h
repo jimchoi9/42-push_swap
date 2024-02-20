@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:43:42 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/19 18:47:23 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/20 11:22:08 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_stack{
 void	push_swap(t_list *A, t_list *B, int max);
 void	small_case_push_swap(t_list *a, t_list *b, int n);
 int		check_num(char *str, t_list *list);
+int		check_str(char *str);
 int		parsing(int argc, char **argv, t_list *list);
 void	indexing(t_list *list);
 void	add_front(t_list *list, int data, int idx);

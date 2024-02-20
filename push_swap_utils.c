@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:41:40 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/19 18:46:10 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/20 11:31:55 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	check_duplicate(t_list *list, int num)
 
 int	is_op(char *str, int *neg)
 {
+	if (ft_isdigit(*(str - 1)))
+		handle_error();
 	if (*str == '-' || *str == '+')
 	{
 		if (*str == '-')
@@ -71,6 +73,8 @@ int	check_sorted(t_list *stack_a)
 
 	j = 1;
 	tmp = stack_a->f;
+	if (stack_a->size == 0)
+		return (1);
 	while (tmp->next != 0)
 	{
 		if (tmp->data < tmp->next->data)

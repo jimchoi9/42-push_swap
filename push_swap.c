@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 12:26:52 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/19 18:49:44 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/20 11:53:53 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int argc, char **argv)
 	stack_b = malloc(sizeof(t_list));
 	stack_a->size = 0;
 	stack_b->size = 0;
-	if (!(argv[1]) || !argv[1][0])
+	if (argc < 2)
 		exit (1);
 	if (parsing(argc, argv, stack_a))
 		handle_error();
@@ -87,10 +87,10 @@ int	main(int argc, char **argv)
 	max = find_max(stack_a);
 	if (check_sorted(stack_a))
 		exit (0);
-	if (stack_a->size < 6)
+	if (stack_a->size < 6 && stack_a->size != 0)
 		small_case_push_swap(stack_a, stack_b, stack_a->size);
 	else
-		push_swap(stack_a, stack_b, max + 1);
+		push_swap(stack_a, stack_b, max);
 	while (stack_a->size > 0)
 		del_front(stack_a);
 	free(stack_a);

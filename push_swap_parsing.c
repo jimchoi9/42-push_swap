@@ -6,11 +6,25 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:26:55 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/19 17:18:37 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/20 11:30:01 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	check_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (*str)
+	{
+		if (*str != ' ')
+			return (0);
+		str++;
+	}
+	return (1);
+}
 
 int	check_num(char *str, t_list *list)
 {
@@ -61,6 +75,8 @@ int	parsing(int argc, char **argv, t_list *list)
 	{
 		j = -1;
 		str = argv[idx];
+		if (check_str(str))
+			continue ;
 		if (check_num(str, list))
 			return (1);
 	}
