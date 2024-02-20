@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:43:42 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/20 11:22:08 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/20 13:16:03 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	add_front(t_list *list, int data, int idx);
 void	add_rear(t_list *list, int data, int idx);
 void	del_front(t_list *list);
 void	del_rear(t_list *list);
-int		check_duplicate(t_list *list, int num);
+int		check_dup(t_list *list, int num);
 int		is_op(char *str, int *neg);
 int		find_max(t_list *stack_a);
 int		check_sorted(t_list *stack_a);

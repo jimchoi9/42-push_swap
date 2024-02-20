@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:26:55 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/20 11:30:01 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/20 13:16:15 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	check_str(char *str)
 
 int	check_num(char *str, t_list *list)
 {
-	long	num;
-	int		neg;
+	long long	num;
+	int			neg;
 
 	while (*str)
 	{
@@ -43,9 +43,10 @@ int	check_num(char *str, t_list *list)
 		{
 			num = num * 10 + *str - '0';
 			str++;
+			if (num > 2147483648)
+				return (1);
 		}
-		if ((num > 2147483648 || (num == 2147483648 && neg != -1))
-			|| check_duplicate(list, num * neg))
+		if (check_dup(list, num * neg) || (num == 2147483648 && neg != -1))
 			return (1);
 		add_rear(list, num * neg, 0);
 		while (*str == ' ')

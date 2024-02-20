@@ -6,13 +6,13 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:41:40 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/20 11:31:55 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/20 13:15:56 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	check_duplicate(t_list *list, int num)
+int	check_dup(t_list *list, int num)
 {
 	t_node	*tmp;
 
