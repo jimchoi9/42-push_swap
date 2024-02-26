@@ -3,8 +3,6 @@ LIBFT_DIR = ./libft/
 LIBFT_NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-AR = ar
-ARFLAGS = rcs
 
 SRC = push_swap.c push_swap_stack.c push_swap_instructions.c push_swap_utils.c push_swap_parsing.c
 OBJS = $(SRC:.c=.o)
