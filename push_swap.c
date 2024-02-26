@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 12:26:52 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/20 13:18:27 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/23 20:04:22 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	push_swap(t_list *a, t_list *b, int max)
 	int		j;
 	int		n;
 
-	i = 1;
+	i = 0;
 	while (max--)
 	{
 		tmp = a->f;
@@ -27,7 +27,7 @@ void	push_swap(t_list *a, t_list *b, int max)
 		n = a->size;
 		while (++j < n)
 		{
-			if ((tmp->idx / i) % 2 == 1)
+			if (((tmp->idx >> i) & 1) == 1)
 				ra(a, *tmp);
 			else
 				pb(a, b, *tmp);
@@ -37,7 +37,7 @@ void	push_swap(t_list *a, t_list *b, int max)
 		n = b->size;
 		while (++j < n)
 			pa(a, b, *(b->f));
-		i *= 2;
+		i++;
 	}
 }
 

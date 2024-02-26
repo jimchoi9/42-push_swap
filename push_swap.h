@@ -6,7 +6,7 @@
 /*   By: jimchoi <jimchoi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:43:42 by jimchoi           #+#    #+#             */
-/*   Updated: 2024/02/20 13:16:03 by jimchoi          ###   ########.fr       */
+/*   Updated: 2024/02/26 11:11:22 by jimchoi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include "./libft/libft.h"
 
 typedef struct s_node
